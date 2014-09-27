@@ -144,7 +144,7 @@ Then run the nodejs script:
 
 Go to your browser and access your server. For access from a local network:
 
-	yourYunName.local:9000
+	yourYunName.local:8000
 
 If you want to access the server from any network in the world you will first have to forward the ports of the router that manages your local network. and then access it by:
 
