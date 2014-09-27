@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>yunsocket</title>
+		<style>
+		body{
+			background-color: #1A1A1A;
+			color:#99FF33;
+			font-family: monospace;
+		}
+		#wrapper{
+			width: 52%;
+			margin-left: 24%;
+		}
+		a:link{
+			color:#ffffff;
+			text-decoration: none;
+		}
+		a:visited{
+			color:#ffffff;
+			text-decoration: none;
+		}
+		a:hover{
+			color:#ffffff;
+			text-decoration: underline;
+		}
+		pre{
+			text-align: center;
+		}
+		button{
+			background-color: #000000;
+			color: #ffffff;
+		}
+		#sensorVal{
+
+		}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<pre>.##....##.##.....##.##....##..######...#######...######..##....##.########.########
+..##..##..##.....##.###...##.##....##.##.....##.##....##.##...##..##..........##...
+...####...##.....##.####..##.##.......##.....##.##.......##..##...##..........##...
+....##....##.....##.##.##.##..######..##.....##.##.......#####....######......##...
+....##....##.....##.##..####.......##.##.....##.##.......##..##...##..........##...
+....##....##.....##.##...###.##....##.##.....##.##....##.##...##..##..........##...
+....##.....#######..##....##..######...#######...######..##....##.########....##...
+</pre>
+			<p>fito_segrera / <a href="http://fii.to">fii.to</a></p>
+			<p>This project uses nodejs, serialport and socket.io to create a webserver on the arduino Yun and have full controll of the arduino chip through an online interface. For this example I use a <a href="http://www.hobbyist.co.nz/?q=documentations/wiring-up-dht11-temp-humidity-sensor-to-your-arduino">DHT11Temp/Hum Sensor</a> connected to Analog 0 and a regular LED on pin 13.</p>
+			<p>-----------------------------</p>
+			<button id="toggleLED" onclick="led();">LED ON/OFF</button>
+			<h4>receiving sensor value:</h4>
+			<p id="sensorVal"></p>
+			<p>-----------------------------</p>
+			<p>Github repository with <a href="https://github.com/fitosegrera/yunsocket">source code</a></p>
+		</div>
+		<script src="http://yunshaman.local:9001/socket.io/socket.io.js"></script>
+		<script>
+			var socket = io.connect('http://yunshaman.local:9001');
+			var isOn = false;
+			function led() {
+				if(isOn == false) {
+					isOn = true;
+					// send signal
+					socket.emit('led', true);
+					//console.log("ON"); //Uncomment for debugging
+				} else if(isOn == true) {
+					isOn = false;
+					// send signal
+					socket.emit('led', false);
+					//console.log("OFF"); //Uncomment for debugging
+				}
+			}
+			socket.on('sensor', function(data) {
+				document.getElementById("sensorVal").innerHTML = data;
+			});
+		</script>
+	</body>
+</html>
