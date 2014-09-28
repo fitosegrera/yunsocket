@@ -150,7 +150,63 @@ If you want to access the server from any network in the world you will first ha
 
 	YOUR.EXTERNAL.IP.ADDRESS:PORT	
 
+I used [http://www.noip.com/](http://www.noip.com/) to generate a free domain and hostname that I can use to replace the external ip address DNS from my network with a host name. In my case technoshaman.noip.me
+
+####Uing the Forever Module
+Ass an addition I use FOREVER to run my node server on the backround ant take care of it if it breakes. You cannot install forever in the same way you would on a regular computer, nor you can use npm to download the module locally. But you can do the following:
+
+1.On your computer download the forever module:
+
+	npm install forever
+
+2.cd into the node_modules directory that you just downloaded and compress the "forever" directory using tar from the terminal:
+
+	cd node_modules
+	
+	tar -cvf forever.tar forever
+
+3.Send the tar file to the arduino yun's root directory:
+
+	scp forever.tar root@yourYunName.local
+
+4.SSH into the yun:
+
+	ssh root@yourYunName.local
+
+5.Uncompress the file:
+
+	cd ..
+
+	tar -xvf forever.tar
+
+6.Delete the tar file:
+
+	rm forever.tar
+
+7.Run the server with forever:
+
+	/forever/bin/forever /mnt/sd/arduino/yunsocket/server.js
+
+####Make the script auto-run on boot
+To make the script run forever without your need to run it every time, do the following:
+
+1.SSH into the Yun:
+
+	ssh root@yourYunName.local
+
+2.Modify the file rc.local using nano editor:
+
+	nano /etc/rc.local
+
+When the file opens you should add the following line just before the line "exit 0":
+
+	/forever/bin/forever /mnt/sd/arduino/yunsocket/server.js
+
+Save the changes and you are done!
+
 ENJOY!!
+
+
 
 
 
