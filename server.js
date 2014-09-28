@@ -12,7 +12,7 @@
 var http = require('http');
 var	fs = require('fs');
 var	io = require('socket.io').listen(9001);
-var index = fs.readFileSync('index.html');//read index.html
+var index = fs.readFileSync(__dirname+'./index.html');//read index.html using the __dirname variable
 var SerialPort = require("serialport").SerialPort;
 
 /////////////////////////////////////////
